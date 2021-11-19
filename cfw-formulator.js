@@ -9,7 +9,9 @@ const config = {
 
   formFields: ["email", "name", "message"],
   requiredFormFields: ["email", "message"],
-  emailFields: ["email"]
+  emailFields: ["email"],
+
+  discordWebhookURL: "_your_discord_webhook_url_"
 };
 
 
@@ -124,6 +126,33 @@ async function validateEmailFields(formData) {
 
 
 /*
+* INTEGRATIONS
+*/
+// Discord integration
+async function integrateDiscord(formData) {
+  if (!config.discordWebhookURL) {
+    return;
+  }
+
+  const body = {embeds: [{fields: []}]}
+  for (let i = 0; i < config.formFields.length; i++) {
+    let formField = config.formFields[i];
+    if (formField in formData) {
+      body["embeds"][0]["fields"].push({ name: formField, value: formData[formField] });
+    }
+  }
+  const request = {
+    body: JSON.stringify(body),
+    method: "POST",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+    },
+  };
+  const response = await fetch(config.discordWebhookURL, request);
+};
+
+
+/*
 * EVENT LISTENER
 */
 addEventListener("fetch", (event) => {
@@ -216,6 +245,9 @@ async function handleSubmitRequest(request) {
   if (errors && errors.length) {
     return JSONResponse({ code: "invalid_email_fields", detail: "Some email fields are invalid.", errors: errors }, status = 400);
   }
+
+  // Integrate discord
+  await integrateDiscord(filteredFormData);
 
   // Success
   return JSONResponse({ code: "submited", "detail": "Form submited."});
