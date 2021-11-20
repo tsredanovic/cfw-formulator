@@ -9,7 +9,8 @@ Configuration is done by setting the following environment variables:
 - `REQUEST_PATH`
   - Default value: `/`
   - Must contain an initial `/`
-  - Used to set the property of the URL containing an initial '/' followed by the path of the URL not including the query string or fragment (or the empty string if there is no path), full URL will look like this: https://{worker_domain}{request_path}
+  - Used to set the property of the URL containing an initial `/` followed by the path of the URL not including the query string or fragment (or the empty string if there is no path), full URL will look like this: https://{worker_domain}{request_path}
+  - Example for full URL when `REQUEST_PATH` is set to default `/`: https://myworker.mysubdomain.workers.dev/
   - Example value: `/submit/`
   - Example for full URL when `REQUEST_PATH` is set to `/submit/`: https://myworker.mysubdomain.workers.dev/submit/
 
@@ -33,11 +34,13 @@ Configuration is done by setting the following environment variables:
   - Optional
   - Must be defined as a comma separated list of fields
   - Used to define which form fields are required to be sent in the request, if not set then none of the fields are required
+  - Example value: `email,message`
 
 - `EMAIL_FIELDS`
   - Optional
   - Must be defined as a comma separated list of fields
   - Used to define which form fields are required to be valid email addresses
+  - Example value: `email`
 
 - `DISCORD_WEBHOOK_URL`
   - Optional
