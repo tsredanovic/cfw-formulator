@@ -1,4 +1,4 @@
-# Cloudflare worker / Formulator
+# Formulator
 
 Cloudflare worker which handles form submissions.
 
