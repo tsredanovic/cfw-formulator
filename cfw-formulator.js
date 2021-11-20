@@ -1,18 +1,18 @@
 /*
 * CONFIGURATION
 */
-const config = {
-  requestPath: "/submit/",
-  requestMethod: "GET",
+const config = {};
 
-  honeypotField: "no-spam-pls",
+(typeof REQUEST_PATH === 'undefined') ? config.requestPath = "/" : config.requestPath = REQUEST_PATH;
+(typeof REQUEST_METHOD === 'undefined') ? config.requestMethod = "POST" : config.requestMethod = REQUEST_METHOD;
 
-  formFields: ["email", "name", "message"],
-  requiredFormFields: ["email", "message"],
-  emailFields: ["email"],
+(typeof HONEYPOT_FIELD === 'undefined') ? config.honeypotField = undefined : config.honeypotField = HONEYPOT_FIELD;
 
-  discordWebhookURL: "_your_discord_webhook_url_"
-};
+(typeof FORM_FIELDS === 'undefined') ? config.formFields = [] : config.formFields = FORM_FIELDS.split(",");
+(typeof REQUIRED_FIELDS === 'undefined') ? config.requiredFields = [] : config.requiredFields = REQUIRED_FIELDS.split(",");
+(typeof EMAIL_FIELDS === 'undefined') ? config.emailFields = [] : config.emailFields = EMAIL_FIELDS.split(",");
+
+(typeof DISCORD_WEBHOOK_URL === 'undefined') ? config.discordWebhookURL = undefined : config.discordWebhookURL = DISCORD_WEBHOOK_URL;
 
 
 /*
@@ -64,17 +64,25 @@ async function getFormData(request) {
 
 // Helper function to filter form data with only formFields
 async function filterFormData(formData) {
-  // formFields not defined in config
-  if (!config.formFields) {
-    return formData;
+  // Filter out empty values
+  const cleanedFormData = {};
+  for (const [formField, formFieldValue] of Object.entries(formData)) {
+    if (formFieldValue) {
+      cleanedFormData[formField] = formFieldValue;
+    }
   }
 
-  // Filter formData
+  // formFields not defined in config
+  if (!config.formFields || !config.formFields.length) {
+    return cleanedFormData;
+  }
+
+  // Extract only formFields from cleanedFormData
   const filteredFormData = {};
   for (let i = 0; i < config.formFields.length; i++) {
     let formField = config.formFields[i];
     if (formField in formData) {
-      filteredFormData[formField] = formData[formField];
+      filteredFormData[formField] = cleanedFormData[formField];
     }
   }
   return filteredFormData;
@@ -101,8 +109,8 @@ async function validateHoneypotField(formData) {
 // Required form fields validator
 async function validateRequiredFields(formData) {
   let errors = [];
-  for (let i = 0; i < config.requiredFormFields.length; i++) {
-    let formField = config.requiredFormFields[i];
+  for (let i = 0; i < config.requiredFields.length; i++) {
+    let formField = config.requiredFields[i];
     if (!formData[formField]) {
       errors.push({ code: "missing_required_field", field: formField, detail: `Field ${formField} is required.` });
     }
@@ -134,12 +142,9 @@ async function integrateDiscord(formData) {
     return;
   }
 
-  const body = {embeds: [{fields: []}]}
-  for (let i = 0; i < config.formFields.length; i++) {
-    let formField = config.formFields[i];
-    if (formField in formData) {
-      body["embeds"][0]["fields"].push({ name: formField, value: formData[formField] });
-    }
+  const body = { embeds: [{ fields: [] }] }
+  for (const [formField, formFieldValue] of Object.entries(formData)) {
+    body["embeds"][0]["fields"].push({ name: formField, value: formFieldValue });
   }
   const request = {
     body: JSON.stringify(body),
@@ -250,5 +255,5 @@ async function handleSubmitRequest(request) {
   await integrateDiscord(filteredFormData);
 
   // Success
-  return JSONResponse({ code: "submited", "detail": "Form submited."});
+  return JSONResponse({ code: "submited", "detail": "Form submited." });
 };
