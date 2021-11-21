@@ -81,7 +81,7 @@ async function filterFormData(formData) {
     const filteredFormData = {};
     for (let i = 0; i < config.formFields.length; i++) {
         let formField = config.formFields[i];
-        if (formField in formData) {
+        if (formField in cleanedFormData) {
             filteredFormData[formField] = cleanedFormData[formField];
         }
     }
