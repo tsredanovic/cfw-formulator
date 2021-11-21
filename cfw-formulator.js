@@ -3,16 +3,16 @@
  */
 const config = {};
 
-(typeof REQUEST_PATH === 'undefined') ? config.requestPath = "/": config.requestPath = REQUEST_PATH;
-(typeof REQUEST_METHOD === 'undefined') ? config.requestMethod = "POST": config.requestMethod = REQUEST_METHOD;
+(typeof REQUEST_PATH === 'undefined') ? config.requestPath = "/" : config.requestPath = REQUEST_PATH;
+(typeof REQUEST_METHOD === 'undefined') ? config.requestMethod = "POST" : config.requestMethod = REQUEST_METHOD;
 
-(typeof HONEYPOT_FIELD === 'undefined') ? config.honeypotField = undefined: config.honeypotField = HONEYPOT_FIELD;
+(typeof HONEYPOT_FIELD === 'undefined') ? config.honeypotField = undefined : config.honeypotField = HONEYPOT_FIELD;
 
-(typeof FORM_FIELDS === 'undefined') ? config.formFields = []: config.formFields = FORM_FIELDS.split(",");
-(typeof REQUIRED_FIELDS === 'undefined') ? config.requiredFields = []: config.requiredFields = REQUIRED_FIELDS.split(",");
-(typeof EMAIL_FIELDS === 'undefined') ? config.emailFields = []: config.emailFields = EMAIL_FIELDS.split(",");
+(typeof FORM_FIELDS === 'undefined') ? config.formFields = [] : config.formFields = FORM_FIELDS.split(",");
+(typeof REQUIRED_FIELDS === 'undefined') ? config.requiredFields = [] : config.requiredFields = REQUIRED_FIELDS.split(",");
+(typeof EMAIL_FIELDS === 'undefined') ? config.emailFields = [] : config.emailFields = EMAIL_FIELDS.split(",");
 
-(typeof DISCORD_WEBHOOK_URL === 'undefined') ? config.discordWebhookURL = undefined: config.discordWebhookURL = DISCORD_WEBHOOK_URL;
+(typeof DISCORD_WEBHOOK_URL === 'undefined') ? config.discordWebhookURL = undefined : config.discordWebhookURL = DISCORD_WEBHOOK_URL;
 
 
 /*
