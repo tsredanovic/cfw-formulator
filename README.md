@@ -1,8 +1,8 @@
 # Formulator
 
-**Cloudflare worker which handles form submissions.**
+**Cloudflare Worker which handles form submissions.**
 
-You can use this script to set up free (some limitations apply) back-end handling for all your website forms with [Cloudflare Workers](https://workers.cloudflare.com/).
+You can use this script to set up free (some limitations apply) [serverless](https://www.cloudflare.com/learning/serverless/what-is-serverless/) handling for all your website forms with [Cloudflare Workers](https://workers.cloudflare.com/).
 
 Different integrations can be used to determine how form data should be processed. You can use one of the pre-existing integrations like the Discord one which sends a message to your channel on every form submit. Or you can go all technical and write your own integration to do whatever you want.
 
