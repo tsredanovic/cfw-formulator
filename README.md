@@ -53,4 +53,30 @@ Configuration is done by setting the following environment variables:
 - `DISCORD_WEBHOOK_URL`
   - Optional
   - Used to integrate with Discord, sends form data to the defined webhook
-  - Learn more [here](https://support.discord.com/hc/en-us/articles/228383668)
+  - Learn more on how to set it up [here](https://support.discord.com/hc/en-us/articles/228383668)
+
+
+## Responses
+
+All responses are in JSON format containing `code` and `detail` fields.
+
+### Success responses
+
+- `form_submitted`
+  - code: `200`
+  - Detail: `Form submitted.`
+  - Form was successfully submitted.
+
+### Fail responses
+
+- `path_not_found`
+  - code: 404
+  - Detail: `Path not found.`
+  - Request was made to wrong [pathname](https://developer.mozilla.org/en-US/docs/Web/API/URL/pathname).
+
+- `method_not_allowed`
+  - code: 400
+  - Detail: `Method ${request.method} not allowed.`
+  - Wrong http method was used in request
+
+- TODO add rest of the responses
