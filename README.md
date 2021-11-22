@@ -77,6 +77,6 @@ All responses are in JSON format containing `code` and `detail` fields.
 - `method_not_allowed`
   - code: 400
   - Detail: `Method ${request.method} not allowed.`
-  - Wrong http method was used in request
+  - Wrong http method was used in request.
 
 - TODO add rest of the responses
