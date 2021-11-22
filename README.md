@@ -1,4 +1,4 @@
-# Formulator
+# ![Formulator](https://formulator.pages.dev/img/formulator-logo.png)
 
 **Cloudflare Worker which handles form submissions.**
 
