@@ -55,6 +55,12 @@ Configuration is done by setting the following environment variables:
   - Used to integrate with Discord, sends form data to the defined webhook
   - Learn more on how to set it up [here](https://support.discord.com/hc/en-us/articles/228383668)
 
+### Slack configuration
+
+- `SLACK_WEBHOOK_URL`
+  - Optional
+  - Used to integrate with Slack, sends form data to the defined webhook
+  - Learn more on how to set it up [here](https://api.slack.com/messaging/webhooks)
 
 ## Responses
 

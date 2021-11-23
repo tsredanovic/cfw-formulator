@@ -14,6 +14,7 @@ const config = {};
 
 (typeof DISCORD_WEBHOOK_URL === 'undefined') ? config.discordWebhookURL = undefined : config.discordWebhookURL = DISCORD_WEBHOOK_URL;
 
+(typeof SLACK_WEBHOOK_URL === 'undefined') ? config.slackWebhookURL = undefined : config.slackWebhookURL = SLACK_WEBHOOK_URL;
 
 /*
  * HELPERS
@@ -156,6 +157,26 @@ async function integrateDiscord(formData) {
     const response = await fetch(config.discordWebhookURL, request);
 };
 
+// Slack integration
+async function integrateSlack(formData) {
+    if (!config.slackWebhookURL) {
+        return;
+    }
+
+    const body = { blocks: [{ type: "section", fields: [] }] }
+    for (const [formField, formFieldValue] of Object.entries(formData)) {
+        body["blocks"][0]["fields"].push({ type: "mrkdwn", text: `*${formField}*\n${formFieldValue}` });
+    }
+    const request = {
+        body: JSON.stringify(body),
+        method: "POST",
+        headers: {
+            "content-type": "application/json",
+        },
+    };
+    const response = await fetch(config.slackWebhookURL, request);
+};
+
 
 /*
  * EVENT LISTENER
@@ -253,6 +274,9 @@ async function handleSubmitRequest(request) {
 
     // Integrate discord
     await integrateDiscord(filteredFormData);
+
+    // Integrate slack
+    await integrateSlack(filteredFormData);
 
     // Success
     return JSONResponse({ code: "form_submitted", "detail": "Form submitted." });
