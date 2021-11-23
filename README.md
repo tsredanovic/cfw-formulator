@@ -63,20 +63,65 @@ All responses are in JSON format containing `code` and `detail` fields.
 ### Success responses
 
 - `form_submitted`
-  - code: `200`
+  - status code: `200`
   - Detail: `Form submitted.`
   - Form was successfully submitted.
 
 ### Fail responses
 
 - `path_not_found`
-  - code: 404
+  - status code: 404
   - Detail: `Path not found.`
   - Request was made to wrong [pathname](https://developer.mozilla.org/en-US/docs/Web/API/URL/pathname).
 
 - `method_not_allowed`
-  - code: 400
+  - status code: 400
   - Detail: `Method ${request.method} not allowed.`
   - Wrong http method was used in request.
 
-- TODO add rest of the responses
+- `invalid_request`
+  - status code: 400
+  - Detail: `Invalid request.`
+  - Missing `HONEYPOT_FIELD` in form data
+
+- `missing_required_fields`
+  - status code: 400
+  - Detail: `Some required fields are missing.`
+  - Also has `errors` field with more info:
+    ```json
+    {
+        "code": "missing_required_fields",
+        "detail": "Some required fields are missing.",
+        "errors": [
+            {
+                "code": "missing_required_field",
+                "field": "email",
+                "detail": "Field email is required."
+            },
+            {
+                "code": "missing_required_field",
+                "field": "message",
+                "detail": "Field message is required."
+            }
+        ]
+    }
+    ```
+
+- `invalid_email_fields`
+  - status code: 400
+  - Detail: `Some email fields are invalid.`
+  - Also has `errors` field with more info:
+    ```json
+    {
+        "code": "invalid_email_fields",
+        "detail": "Some email fields are invalid.",
+        "errors": [
+            {
+                "code": "invalid_email",
+                "field": "email",
+                "value": "test",
+                "detail": "Invalid email address."
+            }
+        ]
+    }
+    ```
